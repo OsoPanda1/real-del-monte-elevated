@@ -1,47 +1,87 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import logoImg from "@/assets/rdm-logo.png";
 
 const chapters = [
-  { id: "hero", label: "Inicio" },
-  { id: "historia", label: "Historia Minera" },
-  { id: "gastronomia", label: "Gastronomía" },
-  { id: "arquitectura", label: "Arquitectura" },
-  { id: "mapa", label: "Mapa de Niebla" },
-  { id: "galeria", label: "Galería" },
+  { id: "hero", label: "Inicio", preview: "Portal Maestro" },
+  { id: "historia", label: "Historia Minera", preview: "Capítulo I" },
+  { id: "gastronomia", label: "Gastronomía", preview: "Capítulo II" },
+  { id: "trailer", label: "Experiencia", preview: "Cinematográfica" },
+  { id: "arquitectura", label: "Arquitectura", preview: "Capítulo III" },
+  { id: "turismo", label: "Turismo", preview: "Descubre" },
+  { id: "mapa", label: "Mapa Vivo", preview: "Interactivo" },
+  { id: "galeria", label: "Galería", preview: "Fragmentos" },
 ];
 
 const BrumaHeader = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 80);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const scrollTo = (id: string) => {
     setMenuOpen(false);
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-5 flex items-center justify-between">
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="font-display text-lg text-niebla tracking-wide cursor-pointer"
+      <motion.header
+        initial={{ y: -80 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+        className={`fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-4 flex items-center justify-between transition-all duration-500 ${
+          scrolled ? "glass-nav" : ""
+        }`}
+      >
+        <div
+          className="flex items-center gap-3 cursor-pointer group"
           onClick={() => scrollTo("hero")}
         >
-          Real del Monte
-        </motion.div>
+          <img src={logoImg} alt="RDM" className="w-8 h-8 object-contain" 
+            style={{ filter: "drop-shadow(0 0 8px hsla(43, 80%, 55%, 0.3))" }} />
+          <div>
+            <span className="font-display text-base text-foreground tracking-wide group-hover:text-gradient-gold transition-all">
+              RDM Digital
+            </span>
+            <span className="font-body text-[8px] tracking-[0.3em] uppercase text-gold/60 block -mt-0.5">
+              Real del Monte
+            </span>
+          </div>
+        </div>
 
-        <motion.button
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
+        {/* Desktop nav */}
+        <nav className="hidden lg:flex items-center gap-6">
+          {chapters.slice(0, 5).map((ch) => (
+            <button
+              key={ch.id}
+              onClick={() => scrollTo(ch.id)}
+              className="font-body text-[11px] tracking-[0.15em] uppercase text-muted-foreground hover:text-gold transition-colors duration-300"
+            >
+              {ch.label}
+            </button>
+          ))}
+        </nav>
+
+        <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="font-body text-xs tracking-[0.3em] uppercase text-niebla/70 hover:text-oxido transition-colors duration-500"
+          className="font-body text-[11px] tracking-[0.3em] uppercase text-muted-foreground hover:text-gold transition-colors duration-500 flex items-center gap-2"
         >
-          {menuOpen ? "Cerrar" : "Índice"}
-        </motion.button>
-      </header>
+          <span className="hidden sm:inline">{menuOpen ? "Cerrar" : "Índice"}</span>
+          <div className="flex flex-col gap-1 w-5">
+            <motion.div animate={{ rotate: menuOpen ? 45 : 0, y: menuOpen ? 5 : 0 }}
+              className="w-full h-[1px] bg-gold" />
+            <motion.div animate={{ opacity: menuOpen ? 0 : 1 }}
+              className="w-full h-[1px] bg-gold/60" />
+            <motion.div animate={{ rotate: menuOpen ? -45 : 0, y: menuOpen ? -5 : 0 }}
+              className="w-full h-[1px] bg-gold" />
+          </div>
+        </button>
+      </motion.header>
 
       <AnimatePresence>
         {menuOpen && (
@@ -50,22 +90,37 @@ const BrumaHeader = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
-            className="fixed inset-0 z-40 bg-carbon/95 flex items-center justify-center"
+            className="fixed inset-0 z-40 flex items-center justify-center"
+            style={{
+              background: "linear-gradient(135deg, hsla(220, 30%, 5%, 0.97), hsla(220, 35%, 3%, 0.99))",
+              backdropFilter: "blur(30px)",
+            }}
           >
-            <nav className="text-center space-y-8">
+            {/* Decorative elements */}
+            <div className="absolute inset-0 grid-pattern opacity-30 pointer-events-none" />
+            <div className="dust-particles" />
+
+            <nav className="text-center space-y-6 relative z-10">
               {chapters.map((ch, i) => (
                 <motion.div
                   key={ch.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.5, delay: i * 0.08 }}
+                  initial={{ opacity: 0, x: -30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 30 }}
+                  transition={{ duration: 0.4, delay: i * 0.06 }}
+                  className="group"
                 >
                   <button
                     onClick={() => scrollTo(ch.id)}
-                    className="font-display text-3xl md:text-5xl text-niebla/80 hover:text-oxido transition-colors duration-500 tracking-tight"
+                    className="flex items-center gap-4 mx-auto"
                   >
-                    {ch.label}
+                    <span className="font-body text-[10px] tracking-[0.3em] uppercase text-gold/40 w-20 text-right group-hover:text-gold/80 transition-colors">
+                      {ch.preview}
+                    </span>
+                    <span className="w-px h-8 bg-gradient-to-b from-transparent via-gold/30 to-transparent" />
+                    <span className="font-display text-3xl md:text-5xl text-foreground/80 hover:text-gradient-gold transition-colors duration-500 tracking-tight">
+                      {ch.label}
+                    </span>
                   </button>
                 </motion.div>
               ))}
