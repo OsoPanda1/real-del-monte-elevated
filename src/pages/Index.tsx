@@ -1,22 +1,25 @@
 import { useState, useCallback } from "react";
 import CinematicIntro from "@/components/CinematicIntro";
+import FloatingParticles from "@/components/FloatingParticles";
 import BrumaHeader from "@/components/BrumaHeader";
 import HeroSection from "@/components/HeroSection";
 import EditorialSection from "@/components/EditorialSection";
 import ChapterDivider from "@/components/ChapterDivider";
 import VideoTrailer from "@/components/VideoTrailer";
+import TourismSection from "@/components/TourismSection";
 import FogMap from "@/components/FogMap";
 import PhotoGallery from "@/components/PhotoGallery";
 import BrumaFooter from "@/components/BrumaFooter";
+import RealitoBubble from "@/components/RealitoBubble";
 
-import historiaImg from "@/assets/historia-mina.jpg";
+import minaImg from "@/assets/rdm-mina.jpeg";
 import gastroImg from "@/assets/gastronomia-pastes.jpg";
-import arqImg from "@/assets/arquitectura-iglesia.jpg";
+import iglesiaImg from "@/assets/rdm-iglesia.jpeg";
 
 const Index = () => {
   const [introComplete, setIntroComplete] = useState(() => {
-    if (sessionStorage.getItem("bruma_intro")) return true;
-    sessionStorage.setItem("bruma_intro", "1");
+    if (sessionStorage.getItem("rdm_intro")) return true;
+    sessionStorage.setItem("rdm_intro", "1");
     return false;
   });
 
@@ -27,6 +30,7 @@ const Index = () => {
       {!introComplete && <CinematicIntro onComplete={handleIntroComplete} />}
 
       <div className="min-h-screen bg-background overflow-x-hidden">
+        <FloatingParticles />
         <BrumaHeader />
         <HeroSection />
 
@@ -44,10 +48,10 @@ const Index = () => {
             "En 1824, un grupo de mineros cornish cruzó el Atlántico con la promesa de plata. Lo que encontraron fue una montaña que no se dejaba domar fácilmente. Real del Monte se convirtió en el escenario de la primera huelga laboral de América, un acto de dignidad que resonó en las galerías subterráneas.",
             "Hoy, la Mina de Acosta permite descender 400 metros al corazón de la montaña. El aire se enfría, la luz se vuelve ámbar, y el silencio se llena de goteos y memorias. Cada roca cuenta una historia de sudor, esperanza y el choque de dos mundos.",
           ]}
-          image={historiaImg}
-          imageAlt="Interior oscuro de la Mina de Acosta con vagoneta sobre rieles"
+          image={minaImg}
+          imageAlt="Interior iluminado de la Mina de Acosta con vagoneta sobre rieles"
           imagePosition="left"
-          accent="hsl(36, 80%, 44%)"
+          accentColor="gold"
         />
 
         <ChapterDivider
@@ -66,7 +70,7 @@ const Index = () => {
           image={gastroImg}
           imageAlt="Paste tradicional cortado mostrando su relleno de papa y carne"
           imagePosition="right"
-          accent="hsl(0, 72%, 36%)"
+          accentColor="copper"
         />
 
         <VideoTrailer />
@@ -80,20 +84,22 @@ const Index = () => {
             "Las chimeneas de ladrillo rojo perforan la bruma como faros silenciosos. Los techos de lámina oxidada crean una sinfonía visual de óxidos y verdes. La arquitectura de Real del Monte es un palimpsesto: capas de influencia indígena, colonial y británica superpuestas en cada fachada.",
             "La Parroquia de la Asunción domina el horizonte con su cantera gris, mientras que las casas de los mineros ingleses, con sus jardines cercados y ventanas de guillotina, susurran historias de té de las cinco en una montaña mexicana.",
           ]}
-          image={arqImg}
+          image={iglesiaImg}
           imageAlt="Parroquia colonial de Real del Monte entre la niebla con techos rojos"
           imagePosition="left"
-          accent="hsl(30, 8%, 60%)"
+          accentColor="electric"
         />
 
         <ChapterDivider
           quote="La niebla no oculta. Revela lo esencial eliminando lo superfluo."
-          author="Taller Bruma"
+          author="RDM Digital"
         />
 
+        <TourismSection />
         <FogMap />
         <PhotoGallery />
         <BrumaFooter />
+        <RealitoBubble />
       </div>
     </>
   );
