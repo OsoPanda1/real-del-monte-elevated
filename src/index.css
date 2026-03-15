@@ -415,6 +415,23 @@
     background-size: 60px 60px;
   }
 
+  /* Shadow utilities */
+  .shadow-soft { box-shadow: var(--shadow-soft); }
+  .shadow-medium { box-shadow: var(--shadow-medium); }
+  .shadow-elevated { box-shadow: var(--shadow-elevated); }
+  .shadow-gold { box-shadow: var(--shadow-gold); }
+  .shadow-electric { box-shadow: var(--shadow-electric); }
+  .shadow-glow { box-shadow: var(--shadow-glow); }
+  .shadow-premium { box-shadow: var(--shadow-premium); }
+  .shadow-card { box-shadow: var(--shadow-card); }
+  .shadow-warm { box-shadow: var(--shadow-warm); }
+
+  /* Background gradient utilities */
+  .bg-gradient-gold { background: var(--gradient-gold); }
+  .bg-gradient-navy { background: var(--gradient-navy); }
+  .bg-gradient-electric { background: var(--gradient-electric); }
+  .bg-gradient-warm { background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--electric)) 100%); }
+
   /* Dust Particles */
   .dust-particles {
     position: absolute;
