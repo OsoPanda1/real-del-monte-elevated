@@ -1,8 +1,21 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { MapPin } from "lucide-react";
+import { Link } from "react-router-dom";
+import { MapPin, Heart } from "lucide-react";
 import fogImg from "@/assets/landscape-fog.jpg";
 import logoImg from "@/assets/rdm-logo.png";
+
+const footerLinks = [
+  { label: "Historia", path: "/historia" },
+  { label: "Gastronomía", path: "/gastronomia" },
+  { label: "Cultura", path: "/cultura" },
+  { label: "Rutas", path: "/rutas" },
+  { label: "Comercios", path: "/comercios" },
+  { label: "Eventos", path: "/eventos" },
+  { label: "Mapa Vivo", path: "/mapa" },
+  { label: "Apoya", path: "/apoya" },
+  { label: "Registrar Negocio", path: "/registro-comercio" },
+];
 
 const BrumaFooter = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -32,6 +45,28 @@ const BrumaFooter = () => {
             Y con ella, la invitación a perderse entre calles empedradas,
             ecos mineros y el aroma de un paste recién horneado.
           </p>
+
+          {/* Navigation links */}
+          <div className="flex flex-wrap justify-center gap-4 mb-12">
+            {footerLinks.map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                className="font-body text-[10px] tracking-[0.15em] uppercase text-muted-foreground hover:text-gold transition-colors"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+
+          {/* Donate CTA */}
+          <Link
+            to="/apoya"
+            className="inline-flex items-center gap-2 btn-hero-glass !px-6 mb-12"
+          >
+            <Heart className="w-4 h-4" />
+            <span>Apoya este proyecto</span>
+          </Link>
 
           <div className="separator-gradient mb-12 max-w-md mx-auto opacity-40" />
 
