@@ -1,31 +1,35 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Navigation, Layers, Search, X, MapPin, Clock, Zap, Star } from "lucide-react";
+import { ArrowLeft, Navigation, Layers, Search, X, Clock, Zap, Star } from "lucide-react";
 import BrumaHeader from "@/components/BrumaHeader";
-import FloatingParticles from "@/components/FloatingParticles";
 import RealitoBubble from "@/components/RealitoBubble";
 
 import aerialImg from "@/assets/aerial-realmont.jpg";
 
 interface POI {
-  id: string; name: string; description: string;
-  x: number; y: number;
+  id: string;
+  name: string;
+  description: string;
+  x: number;
+  y: number;
   category: "historia" | "gastronomia" | "arquitectura" | "naturaleza" | "comercio";
-  rating?: number; time?: string; energy?: string;
+  rating?: number;
+  time?: string;
+  energy?: string;
 }
 
 const allPois: POI[] = [
-  { id: "1", name: "Mina de Acosta", description: "Desciende 400 metros al corazón de la montaña. La experiencia más emblemática del pueblo.", x: 35, y: 40, category: "historia", rating: 4.9, time: "2h", energy: "Alta" },
-  { id: "2", name: "Panteón Inglés", description: "El único cementerio en México con tumbas que miran hacia Cornwall, Inglaterra.", x: 62, y: 28, category: "historia", rating: 4.8, time: "1h", energy: "Baja" },
+  { id: "1", name: "Mina de Acosta", description: "Desciende 400 metros al corazón de la montaña.", x: 35, y: 40, category: "historia", rating: 4.9, time: "2h", energy: "Alta" },
+  { id: "2", name: "Panteón Inglés", description: "El único cementerio en México con tumbas que miran hacia Cornwall.", x: 62, y: 28, category: "historia", rating: 4.8, time: "1h", energy: "Baja" },
   { id: "3", name: "Pastes El Portal", description: "Los pastes más antiguos del pueblo. Receta familiar de 4 generaciones.", x: 48, y: 55, category: "gastronomia", rating: 4.8, time: "30min", energy: "Baja" },
-  { id: "4", name: "Parroquia de la Asunción", description: "Cantera labrada del siglo XVIII que desafía la niebla desde lo alto.", x: 45, y: 45, category: "arquitectura", rating: 4.7, time: "45min", energy: "Baja" },
-  { id: "5", name: "Peña del Cuervo", description: "El mirador más alto. Vista panorámica de 360° sobre el valle.", x: 78, y: 35, category: "naturaleza", rating: 4.6, time: "2.5h", energy: "Alta" },
-  { id: "6", name: "Museo de Medicina", description: "Historia de la salud en un pueblo donde la altitud dictaba las reglas.", x: 28, y: 60, category: "historia", rating: 4.3, time: "1h", energy: "Baja" },
-  { id: "7", name: "Platería La Veta", description: "Joyería artesanal en plata con diseños inspirados en la herencia minera.", x: 52, y: 50, category: "comercio", rating: 4.5, time: "30min", energy: "Baja" },
-  { id: "8", name: "Hotel Mina Real", description: "Boutique hotel en antigua casona minera con vista panorámica.", x: 40, y: 48, category: "comercio", rating: 4.9, time: "—", energy: "Baja" },
-  { id: "9", name: "Cascada Estanzuela", description: "Sendero entre oyameles que lleva a una cascada cristalina.", x: 85, y: 60, category: "naturaleza", rating: 4.5, time: "3h", energy: "Alta" },
-  { id: "10", name: "Centro Cultural", description: "Exposiciones temporales, talleres y eventos culturales.", x: 43, y: 42, category: "arquitectura", rating: 4.2, time: "1.5h", energy: "Baja" },
+  { id: "4", name: "Parroquia de la Asunción", description: "Cantera labrada del siglo XVIII que desafía la niebla.", x: 45, y: 45, category: "arquitectura", rating: 4.7, time: "45min", energy: "Baja" },
+  { id: "5", name: "Peña del Cuervo", description: "Vista panorámica de 360° sobre el valle.", x: 78, y: 35, category: "naturaleza", rating: 4.6, time: "2.5h", energy: "Alta" },
+  { id: "6", name: "Museo de Medicina", description: "Historia de la salud en un pueblo de altitud.", x: 28, y: 60, category: "historia", rating: 4.3, time: "1h", energy: "Baja" },
+  { id: "7", name: "Platería La Veta", description: "Joyería artesanal en plata con diseños mineros.", x: 52, y: 50, category: "comercio", rating: 4.5, time: "30min", energy: "Baja" },
+  { id: "8", name: "Hotel Mina Real", description: "Boutique hotel en antigua casona minera.", x: 40, y: 48, category: "comercio", rating: 4.9, time: "—", energy: "Baja" },
+  { id: "9", name: "Cascada Estanzuela", description: "Sendero entre oyameles hasta una cascada cristalina.", x: 85, y: 60, category: "naturaleza", rating: 4.5, time: "3h", energy: "Alta" },
+  { id: "10", name: "Centro Cultural", description: "Exposiciones temporales, talleres y eventos.", x: 43, y: 42, category: "arquitectura", rating: 4.2, time: "1.5h", energy: "Baja" },
 ];
 
 const categoryInfo: Record<string, { color: string; label: string }> = {
@@ -99,29 +103,27 @@ const MapaVivo = () => {
   });
 
   return (
-    <div className="min-h-screen bg-background overflow-hidden">
-      <FloatingParticles />
+    <div className="min-h-screen bg-background overflow-hidden flex flex-col">
       <BrumaHeader />
 
-      <div className="pt-20 flex flex-col h-screen">
+      <div className="pt-16 sm:pt-20 flex flex-col flex-1">
         {/* Top bar */}
-        <div className="flex items-center gap-4 px-6 py-3 glass-nav">
+        <div className="flex items-center gap-3 sm:gap-4 px-4 sm:px-6 py-3 glass-nav">
           <Link to="/" className="flex items-center gap-2 text-muted-foreground hover:text-gold transition-colors">
             <ArrowLeft className="w-4 h-4" />
             <span className="font-body text-xs tracking-wider uppercase hidden sm:inline">Inicio</span>
           </Link>
           <div className="h-4 w-px bg-border" />
-          <h1 className="font-display text-lg text-gradient-gold">Mapa Vivo</h1>
+          <h1 className="font-display text-base sm:text-lg text-gradient-gold">Mapa Vivo</h1>
           <div className="flex-1" />
 
-          {/* Search */}
-          <div className="glass rounded-full flex items-center gap-2 px-4 py-2 max-w-xs">
-            <Search className="w-3.5 h-3.5 text-muted-foreground" />
+          <div className="glass rounded-full flex items-center gap-2 px-3 sm:px-4 py-2 max-w-[180px] sm:max-w-xs">
+            <Search className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Buscar lugar..."
+              placeholder="Buscar..."
               className="bg-transparent font-body text-xs text-foreground placeholder:text-muted-foreground focus:outline-none w-full"
             />
             {searchQuery && (
@@ -129,11 +131,8 @@ const MapaVivo = () => {
             )}
           </div>
 
-          {/* User location button */}
           <button
-            onClick={() => {
-              if (userLocation) setSelectedPOI(null);
-            }}
+            onClick={() => { if (userLocation) setSelectedPOI(null); }}
             className="glass rounded-full p-2 text-electric hover:text-electric-light transition-colors"
           >
             <Navigation className="w-4 h-4" />
@@ -141,11 +140,11 @@ const MapaVivo = () => {
         </div>
 
         {/* Category filters */}
-        <div className="flex items-center gap-2 px-6 py-2 overflow-x-auto">
+        <div className="flex items-center gap-1.5 sm:gap-2 px-4 sm:px-6 py-2 overflow-x-auto no-scrollbar">
           <button
             onClick={() => setActiveCategory(null)}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full font-body text-[10px] tracking-wider uppercase transition-all ${
-              !activeCategory ? "btn-premium !px-4 !py-1.5 !text-[10px]" : "glass text-muted-foreground hover:text-gold"
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full font-body text-[10px] tracking-wider uppercase transition-all whitespace-nowrap ${
+              !activeCategory ? "btn-premium !px-3 !py-1.5 !text-[10px]" : "glass text-muted-foreground hover:text-gold"
             }`}
           >
             <Layers className="w-3 h-3" /> Todos
@@ -154,18 +153,18 @@ const MapaVivo = () => {
             <button
               key={key}
               onClick={() => setActiveCategory(activeCategory === key ? null : key)}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full font-body text-[10px] tracking-wider uppercase transition-all ${
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full font-body text-[10px] tracking-wider uppercase transition-all whitespace-nowrap ${
                 activeCategory === key ? "glass border-gold/40 text-gold" : "glass text-muted-foreground hover:text-foreground"
               }`}
             >
-              <div className="w-2 h-2 rounded-full" style={{ backgroundColor: info.color }} />
+              <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: info.color }} />
               {info.label}
             </button>
           ))}
         </div>
 
         {/* Map area */}
-        <div className="flex-1 relative mx-4 mb-4 rounded-xl overflow-hidden glass-card">
+        <div className="flex-1 relative mx-3 sm:mx-4 mb-3 sm:mb-4 rounded-xl overflow-hidden glass-card min-h-[50vh]">
           <div
             ref={containerRef}
             className="relative w-full h-full cursor-crosshair"
@@ -174,13 +173,11 @@ const MapaVivo = () => {
           >
             <img src={aerialImg} alt="Mapa aéreo de Real del Monte" className="w-full h-full object-cover" />
 
-            {/* Fog canvas */}
             <canvas
               ref={canvasRef}
               className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ${fogCleared ? "opacity-0 pointer-events-none" : ""}`}
             />
 
-            {/* POI Markers */}
             <div className={`absolute inset-0 transition-opacity duration-700 ${fogCleared ? "opacity-100" : "opacity-0"}`}>
               {filtered.map((poi) => (
                 <button
@@ -190,10 +187,10 @@ const MapaVivo = () => {
                   onClick={() => setSelectedPOI(selectedPOI?.id === poi.id ? null : poi)}
                 >
                   <div
-                    className={`w-4 h-4 rounded-full pulse-gold transition-transform ${selectedPOI?.id === poi.id ? "scale-150" : "group-hover:scale-125"}`}
+                    className={`w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full pulse-gold transition-transform ${selectedPOI?.id === poi.id ? "scale-150" : "group-hover:scale-125"}`}
                     style={{ backgroundColor: categoryInfo[poi.category]?.color }}
                   />
-                  <span className="absolute -top-6 left-1/2 -translate-x-1/2 font-body text-[9px] text-foreground/80 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity glass rounded px-1.5 py-0.5">
+                  <span className="absolute -top-6 left-1/2 -translate-x-1/2 font-body text-[8px] sm:text-[9px] text-foreground/80 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity glass rounded px-1.5 py-0.5">
                     {poi.name}
                   </span>
                 </button>
@@ -204,18 +201,20 @@ const MapaVivo = () => {
                   className="absolute w-5 h-5 rounded-full bg-electric pulse-electric transform -translate-x-1/2 -translate-y-1/2 z-20 border-2 border-background"
                   style={{ left: `${userLocation.x}%`, top: `${userLocation.y}%` }}
                 >
-                  <span className="absolute -top-6 left-1/2 -translate-x-1/2 font-body text-[9px] text-electric whitespace-nowrap font-medium">Tú estás aquí</span>
+                  <span className="absolute -top-6 left-1/2 -translate-x-1/2 font-body text-[9px] text-electric whitespace-nowrap font-medium">Tú</span>
                 </div>
               )}
             </div>
 
-            {/* Fog instruction */}
             {!fogCleared && (
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <motion.p animate={{ opacity: [0.3, 0.7, 0.3] }} transition={{ duration: 3, repeat: Infinity }}
-                  className="font-display text-xl md:text-3xl text-gold/50 italic text-center px-4">
+                <motion.p
+                  animate={{ opacity: [0.3, 0.7, 0.3] }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                  className="font-display text-lg sm:text-xl md:text-3xl text-gold/50 italic text-center px-4"
+                >
                   Desliza para limpiar la niebla<br />
-                  <span className="text-sm text-platinum/30 not-italic font-body">y descubrir los secretos del pueblo</span>
+                  <span className="text-xs sm:text-sm text-platinum/30 not-italic font-body">y descubrir los secretos del pueblo</span>
                 </motion.p>
               </div>
             )}
@@ -226,7 +225,7 @@ const MapaVivo = () => {
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="absolute top-4 right-4 w-72 glass rounded-xl p-5 z-30"
+              className="absolute top-3 right-3 sm:top-4 sm:right-4 w-64 sm:w-72 glass rounded-xl p-4 sm:p-5 z-30"
             >
               <button onClick={() => setSelectedPOI(null)} className="absolute top-3 right-3 text-muted-foreground hover:text-foreground">
                 <X className="w-4 h-4" />
@@ -237,9 +236,9 @@ const MapaVivo = () => {
                   {categoryInfo[selectedPOI.category]?.label}
                 </span>
               </div>
-              <h3 className="font-display text-xl text-foreground mb-2">{selectedPOI.name}</h3>
-              <p className="font-body text-xs text-muted-foreground leading-relaxed mb-3">{selectedPOI.description}</p>
-              <div className="flex items-center gap-4 text-muted-foreground">
+              <h3 className="font-display text-lg sm:text-xl text-foreground mb-2">{selectedPOI.name}</h3>
+              <p className="font-body text-[11px] sm:text-xs text-muted-foreground leading-relaxed mb-3">{selectedPOI.description}</p>
+              <div className="flex items-center gap-3 sm:gap-4 text-muted-foreground">
                 {selectedPOI.rating && (
                   <span className="flex items-center gap-1 font-body text-[10px]">
                     <Star className="w-3 h-3 text-gold fill-gold" /> {selectedPOI.rating}
@@ -261,12 +260,12 @@ const MapaVivo = () => {
 
           {/* Legend */}
           {fogCleared && (
-            <div className="absolute bottom-4 left-4 glass rounded-xl p-3 z-20">
-              <div className="flex flex-wrap gap-3">
+            <div className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 glass rounded-xl p-2.5 sm:p-3 z-20">
+              <div className="flex flex-wrap gap-2 sm:gap-3">
                 {Object.entries(categoryInfo).map(([key, info]) => (
                   <div key={key} className="flex items-center gap-1.5">
                     <div className="w-2 h-2 rounded-full" style={{ backgroundColor: info.color }} />
-                    <span className="font-body text-[9px] text-muted-foreground uppercase tracking-wider">{info.label}</span>
+                    <span className="font-body text-[8px] sm:text-[9px] text-muted-foreground uppercase tracking-wider">{info.label}</span>
                   </div>
                 ))}
               </div>

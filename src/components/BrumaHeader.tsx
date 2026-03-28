@@ -41,24 +41,34 @@ const BrumaHeader = () => {
     setMenuOpen(false);
   }, [location.pathname]);
 
+  // Lock body scroll when menu is open
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [menuOpen]);
+
   return (
     <>
       <motion.header
         initial={{ y: -80 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.8, delay: 0.2 }}
-        className={`fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-4 flex items-center justify-between transition-all duration-500 ${
+        className={`fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 md:px-12 py-3 sm:py-4 flex items-center justify-between transition-all duration-500 ${
           scrolled ? "glass-nav" : ""
         }`}
       >
-        <Link to="/" className="flex items-center gap-3 group">
-          <img src={logoImg} alt="RDM" className="w-8 h-8 object-contain"
+        <Link to="/" className="flex items-center gap-2.5 group">
+          <img src={logoImg} alt="RDM" className="w-7 h-7 sm:w-8 sm:h-8 object-contain"
             style={{ filter: "drop-shadow(0 0 8px hsla(43, 80%, 55%, 0.3))" }} />
           <div>
-            <span className="font-display text-base text-foreground tracking-wide group-hover:text-gradient-gold transition-all">
+            <span className="font-display text-sm sm:text-base text-foreground tracking-wide group-hover:text-gradient-gold transition-all">
               RDM Digital
             </span>
-            <span className="font-body text-[8px] tracking-[0.3em] uppercase text-gold/60 block -mt-0.5">
+            <span className="font-body text-[7px] sm:text-[8px] tracking-[0.3em] uppercase text-gold/60 block -mt-0.5">
               Real del Monte
             </span>
           </div>
@@ -112,26 +122,26 @@ const BrumaHeader = () => {
             }}
           >
             <div className="absolute inset-0 grid-pattern opacity-30 pointer-events-none" />
-            <nav className="text-center space-y-5 relative z-10">
+            <nav className="text-center space-y-4 sm:space-y-5 relative z-10 px-6 w-full max-w-lg">
               {chapters.map((ch, i) => (
                 <motion.div
                   key={ch.id}
                   initial={{ opacity: 0, x: -30 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 30 }}
-                  transition={{ duration: 0.4, delay: i * 0.05 }}
+                  transition={{ duration: 0.4, delay: i * 0.04 }}
                 >
                   <Link
                     to={ch.path}
-                    className={`flex items-center gap-4 mx-auto group ${
+                    className={`flex items-center gap-3 sm:gap-4 justify-center group ${
                       location.pathname === ch.path ? "opacity-100" : "opacity-70 hover:opacity-100"
                     }`}
                   >
-                    <span className="font-body text-[10px] tracking-[0.3em] uppercase text-gold/40 w-24 text-right group-hover:text-gold/80 transition-colors">
+                    <span className="font-body text-[9px] sm:text-[10px] tracking-[0.3em] uppercase text-gold/40 w-16 sm:w-24 text-right group-hover:text-gold/80 transition-colors">
                       {ch.preview}
                     </span>
-                    <span className="w-px h-8 bg-gradient-to-b from-transparent via-gold/30 to-transparent" />
-                    <span className={`font-display text-3xl md:text-5xl tracking-tight transition-colors duration-500 ${
+                    <span className="w-px h-6 sm:h-8 bg-gradient-to-b from-transparent via-gold/30 to-transparent" />
+                    <span className={`font-display text-2xl sm:text-3xl md:text-5xl tracking-tight transition-colors duration-500 ${
                       location.pathname === ch.path ? "text-gradient-gold" : "text-foreground/80 hover:text-gradient-gold"
                     }`}>
                       {ch.label}
