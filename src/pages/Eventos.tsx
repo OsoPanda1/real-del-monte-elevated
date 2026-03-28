@@ -7,7 +7,7 @@ import FloatingParticles from "@/components/FloatingParticles";
 import RealitoBubble from "@/components/RealitoBubble";
 import SectionHeader from "@/components/SectionHeader";
 import GradientSeparator from "@/components/GradientSeparator";
-import { StaggerContainer, StaggerItem, GlowCard } from "@/components/VisualEffects";
+import { StaggerContainer, StaggerItem, GlowCard, ImmersiveHero } from "@/components/VisualEffects";
 
 import plazaImg from "@/assets/rdm-plaza.jpeg";
 import calleImg from "@/assets/rdm-calle.jpeg";
@@ -20,7 +20,7 @@ const featuredEvent = {
   date: "13 — 15 de Septiembre, 2026",
   time: "10:00 — 20:00 hrs",
   location: "Plaza Principal y calles aledañas",
-  description: "El festival gastronómico más emblemático de Real del Monte celebra su edición 2026 con más de 30 variedades de pastes, concursos de recetas centenarias, música en vivo y la participación de maestros pasteleros de cuatro generaciones. Una inmersión sensorial en la herencia culinaria cornish-mexicana.",
+  description: "El festival gastronómico más emblemático de Real del Monte celebra su edición 2026 con más de 30 variedades de pastes, concursos de recetas centenarias, música en vivo y la participación de maestros pasteleros de cuatro generaciones.",
   image: gastroImg,
   capacity: "5,000+ visitantes",
 };
@@ -30,7 +30,7 @@ const events = [
   { name: "Feria de la Plata", date: "08 Abr", time: "09:00", location: "Centro Cultural", description: "Exposición de platería artesanal, talleres de orfebrería y venta directa.", image: calleImg, category: "Artesanal" },
   { name: "Carrera del Minero 10K", date: "01 May", time: "07:00", location: "Mina de Acosta", description: "Ruta de montaña por senderos históricos mineros. Categorías: 5K y 10K.", image: minaImg, category: "Deportivo" },
   { name: "Concierto en la Parroquia", date: "15 May", time: "18:00", location: "Parroquia de la Asunción", description: "Música barroca y contemporánea en el marco de la parroquia iluminada.", image: plazaImg, category: "Musical" },
-  { name: "Muestra Gastronómica", date: "20 Jun", time: "11:00", location: "Plaza del Reloj", description: "Degustación de cocina regional: barbacoa, pulque, pastes y dulces tradicionales.", image: gastroImg, category: "Gastronómico" },
+  { name: "Muestra Gastronómica", date: "20 Jun", time: "11:00", location: "Plaza del Reloj", description: "Degustación de cocina regional: barbacoa, pulque, pastes y dulces.", image: gastroImg, category: "Gastronómico" },
   { name: "Festival de la Niebla", date: "10 Jul", time: "16:00", location: "Mirador Peña del Cuervo", description: "Arte visual, performance y poesía al aire libre cuando la niebla envuelve la sierra.", image: iglesiaImg, category: "Artístico" },
 ];
 
@@ -55,33 +55,19 @@ const Eventos = () => (
     <FloatingParticles />
     <BrumaHeader />
 
-    {/* Hero */}
-    <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
-      <div className="absolute inset-0">
-        <img src={plazaImg} alt="Plaza de Eventos" className="w-full h-full object-cover ken-burns opacity-25" />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/40 to-background" />
-      </div>
-      <div className="relative text-center px-6">
-        <Link to="/" className="inline-flex items-center gap-2 glass rounded-full px-4 py-2 mb-8 text-muted-foreground hover:text-gold transition-colors">
-          <ArrowLeft className="w-4 h-4" />
-          <span className="font-body text-xs tracking-wider uppercase">Inicio</span>
-        </Link>
-        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}>
-          <span className="font-body text-[10px] tracking-[0.5em] uppercase text-gold/60 block mb-4">Calendario Vivo</span>
-          <h1 className="font-display text-5xl md:text-7xl lg:text-8xl tracking-tight text-gradient-gold">Eventos</h1>
-          <p className="font-display text-lg md:text-xl text-platinum/60 italic mt-6 max-w-xl mx-auto">
-            La agenda cultural del pueblo que nunca deja de celebrar
-          </p>
-        </motion.div>
-      </div>
-    </section>
+    <ImmersiveHero image={plazaImg} title="Eventos" subtitle="La agenda cultural del pueblo que nunca deja de celebrar" label="Calendario Vivo">
+      <Link to="/" className="inline-flex items-center gap-2 glass rounded-full px-4 py-2 mb-8 text-muted-foreground hover:text-gold transition-colors">
+        <ArrowLeft className="w-4 h-4" />
+        <span className="font-body text-xs tracking-wider uppercase">Inicio</span>
+      </Link>
+    </ImmersiveHero>
 
     {/* Calendar bar */}
-    <section className="container mx-auto px-6 md:px-12 py-8">
-      <div className="flex justify-center gap-2 flex-wrap">
+    <section className="container mx-auto px-4 sm:px-6 md:px-12 py-8">
+      <div className="flex justify-center gap-1.5 sm:gap-2 flex-wrap">
         {months.map((m) => (
-          <div key={m.name} className={`glass rounded-xl px-4 py-3 text-center min-w-[60px] transition-all duration-300 ${m.events > 0 ? "border-gold/20 hover:border-gold/40 cursor-pointer" : "opacity-40"}`}>
-            <span className="font-body text-[10px] tracking-wider uppercase text-muted-foreground block">{m.name}</span>
+          <div key={m.name} className={`glass rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 text-center min-w-[50px] sm:min-w-[60px] transition-all duration-300 ${m.events > 0 ? "border-gold/20 hover:border-gold/40 cursor-pointer" : "opacity-40"}`}>
+            <span className="font-body text-[9px] sm:text-[10px] tracking-wider uppercase text-muted-foreground block">{m.name}</span>
             {m.events > 0 && (
               <div className="flex justify-center gap-1 mt-1.5">
                 {Array.from({ length: Math.min(m.events, 3) }).map((_, i) => (
@@ -97,13 +83,13 @@ const Eventos = () => (
     <GradientSeparator variant="gold" />
 
     {/* Featured Event */}
-    <section className="container mx-auto px-6 md:px-12 py-16">
+    <section className="container mx-auto px-4 sm:px-6 md:px-12 py-14 md:py-16">
       <SectionHeader label="Evento Destacado" title="Festival del Paste 2026" subtitle="El evento más esperado del año" />
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto"
+        className="grid md:grid-cols-2 gap-6 md:gap-8 max-w-5xl mx-auto"
       >
         <div className="relative overflow-hidden rounded-xl img-zoom">
           <div className="aspect-[4/3]">
@@ -114,10 +100,10 @@ const Eventos = () => (
             <span className="font-body text-[9px] tracking-wider uppercase text-gold font-medium">★ Destacado</span>
           </div>
         </div>
-        <div className="flex flex-col justify-center space-y-5">
-          <h3 className="font-display text-3xl md:text-4xl tracking-tight text-gradient-gold">{featuredEvent.name}</h3>
+        <div className="flex flex-col justify-center space-y-4 sm:space-y-5">
+          <h3 className="font-display text-2xl sm:text-3xl md:text-4xl tracking-tight text-gradient-gold">{featuredEvent.name}</h3>
           <div className="w-12 h-px bg-gold/40" />
-          <p className="font-body text-sm text-muted-foreground leading-relaxed">{featuredEvent.description}</p>
+          <p className="font-body text-xs sm:text-sm text-muted-foreground leading-relaxed">{featuredEvent.description}</p>
           <div className="space-y-2">
             {[
               { icon: <Calendar className="w-3.5 h-3.5 text-gold" />, text: featuredEvent.date },
@@ -131,7 +117,7 @@ const Eventos = () => (
               </div>
             ))}
           </div>
-          <button className="btn-premium self-start mt-4 flex items-center gap-2">
+          <button className="btn-premium self-start mt-2 flex items-center gap-2">
             <Ticket className="w-4 h-4" /> Más información
           </button>
         </div>
@@ -141,9 +127,9 @@ const Eventos = () => (
     <GradientSeparator variant="electric" />
 
     {/* All Events */}
-    <section className="container mx-auto px-6 md:px-12 py-16">
+    <section className="container mx-auto px-4 sm:px-6 md:px-12 py-14 md:py-16">
       <SectionHeader label="Próximos" title="Agenda 2026" subtitle="Todos los eventos confirmados del año" />
-      <StaggerContainer className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+      <StaggerContainer className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto">
         {events.map((event) => (
           <StaggerItem key={event.name}>
             <GlowCard color="electric" className="overflow-hidden">
@@ -155,20 +141,20 @@ const Eventos = () => (
                     {event.category}
                   </span>
                 </div>
-                <div className="absolute top-3 right-3 glass rounded-xl px-3 py-2 text-center">
-                  <span className="font-display text-lg text-gold leading-none block">{event.date.split(" ")[0]}</span>
-                  <span className="font-body text-[9px] uppercase text-muted-foreground">{event.date.split(" ")[1]}</span>
+                <div className="absolute top-3 right-3 glass rounded-xl px-2.5 py-1.5 text-center">
+                  <span className="font-display text-base sm:text-lg text-gold leading-none block">{event.date.split(" ")[0]}</span>
+                  <span className="font-body text-[8px] sm:text-[9px] uppercase text-muted-foreground">{event.date.split(" ")[1]}</span>
                 </div>
               </div>
-              <div className="p-5">
-                <h3 className="font-display text-xl text-foreground mb-2">{event.name}</h3>
-                <p className="font-body text-xs text-muted-foreground leading-relaxed mb-3">{event.description}</p>
-                <div className="flex items-center gap-4 text-muted-foreground">
+              <div className="p-4 sm:p-5">
+                <h3 className="font-display text-lg sm:text-xl text-foreground mb-1.5">{event.name}</h3>
+                <p className="font-body text-[11px] sm:text-xs text-muted-foreground leading-relaxed mb-3">{event.description}</p>
+                <div className="flex items-center gap-3 sm:gap-4 text-muted-foreground">
                   <span className="flex items-center gap-1 font-body text-[10px]">
                     <Clock className="w-3 h-3 text-gold/60" /> {event.time}
                   </span>
-                  <span className="flex items-center gap-1 font-body text-[10px]">
-                    <MapPin className="w-3 h-3 text-gold/60" /> {event.location}
+                  <span className="flex items-center gap-1 font-body text-[10px] truncate">
+                    <MapPin className="w-3 h-3 text-gold/60 flex-shrink-0" /> {event.location}
                   </span>
                 </div>
               </div>
