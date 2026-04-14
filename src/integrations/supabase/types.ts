@@ -14,7 +14,207 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      businesses: {
+        Row: {
+          address: string | null
+          category: string
+          created_at: string
+          description: string | null
+          id: string
+          image_url: string | null
+          is_premium: boolean | null
+          name: string
+          phone: string | null
+          rating: number | null
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          address?: string | null
+          category: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_premium?: boolean | null
+          name: string
+          phone?: string | null
+          rating?: number | null
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          address?: string | null
+          category?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_premium?: boolean | null
+          name?: string
+          phone?: string | null
+          rating?: number | null
+          updated_at?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
+      events: {
+        Row: {
+          capacity: string | null
+          category: string | null
+          created_at: string
+          description: string | null
+          event_date: string | null
+          event_time: string | null
+          featured: boolean | null
+          id: string
+          image_url: string | null
+          location: string | null
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          capacity?: string | null
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          event_date?: string | null
+          event_time?: string | null
+          featured?: boolean | null
+          id?: string
+          image_url?: string | null
+          location?: string | null
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          capacity?: string | null
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          event_date?: string | null
+          event_time?: string | null
+          featured?: boolean | null
+          id?: string
+          image_url?: string | null
+          location?: string | null
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      places: {
+        Row: {
+          category: string
+          created_at: string
+          description: string | null
+          energy_level: string | null
+          featured: boolean | null
+          id: string
+          image_url: string | null
+          latitude: number | null
+          longitude: number | null
+          map_x: number | null
+          map_y: number | null
+          name: string
+          rating: number | null
+          updated_at: string
+          visit_duration: string | null
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          energy_level?: string | null
+          featured?: boolean | null
+          id?: string
+          image_url?: string | null
+          latitude?: number | null
+          longitude?: number | null
+          map_x?: number | null
+          map_y?: number | null
+          name: string
+          rating?: number | null
+          updated_at?: string
+          visit_duration?: string | null
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          energy_level?: string | null
+          featured?: boolean | null
+          id?: string
+          image_url?: string | null
+          latitude?: number | null
+          longitude?: number | null
+          map_x?: number | null
+          map_y?: number | null
+          name?: string
+          rating?: number | null
+          updated_at?: string
+          visit_duration?: string | null
+        }
+        Relationships: []
+      }
+      posts: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          image_url: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          created_at: string
+          display_name: string | null
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
